@@ -164,7 +164,11 @@ open class SwiftyGifManager {
         
         for imageView in displayViews {
             queue.sync {
-                imageView.image = imageView.currentImage
+                if #available(iOS 15.0, *) {
+                    imageView.image = imageView.currentImage?.preparingForDisplay()
+                } else {
+                    imageView.image = imageView.currentImage
+                }
             }
             
             if imageView.isAnimatingGif() {
